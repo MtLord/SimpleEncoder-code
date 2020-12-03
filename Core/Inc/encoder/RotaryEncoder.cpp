@@ -9,11 +9,11 @@
 
 long Encoder::getcount()
 {
-	return (htim->Instance->CNT-this->offset);
+	return (htim->Instance->CNT-this->offset)*direction;
 }
 
 short IntEncoder::getcount()
 {
-	return (htim->Instance->CNT-this->offset);
+	return (htim->Instance->CNT-this->offset)*direction;
 }
 

@@ -110,27 +110,25 @@ int main(void)
   MX_TIM7_Init();
   MX_TIM8_Init();
   /* USER CODE BEGIN 2 */
-    /* USER CODE END 2 */
   LowlayerHandleTypdef hlow;
   gyrostate=hlow.gyro.Init();
   plow=&hlow;
   Application app(&hlow);
   App=&app;
 
+  Timer1 LoopInt(&htim6);
 
-   /******Timer configration*************/
-   	Timer1 LoopInt(&htim6);
-  	LoopInt.SetLoopTime(1);
-  	FilterConfig(); //CAN RX Filter
-   	LoopInt.Start();
+     /****init here***********/
+  LoopInt.SetLoopTime(1);
+  FilterConfig(); //CAN RX Filter
+  LoopInt.Start();
+  /* USER CODE END 2 */
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
     /* USER CODE END WHILE */
-	 // printf("yaw:%f\n\r",);
 	  App->TaskShift();
-	 // HAL_Delay(5);
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */

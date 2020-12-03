@@ -9,14 +9,15 @@
 #define ENCODER_ROTARYENCODER_HPP_
 #include "stm32f4xx_hal.h"
 #include "tim.h"
-
+#include "EncoderSwitch/Switch.hpp"
 class Encoder
 {
 protected:
 	const long offset=0x80000000;
 	TIM_HandleTypeDef *htim;
+	short direction;
 public:
-	Encoder(TIM_HandleTypeDef *tim):htim(tim)
+	Encoder(TIM_HandleTypeDef *tim,short _direction):htim(tim),direction(_direction)
 	{
 		htim->Instance->CNT=offset;
 		HAL_TIM_Encoder_Start(htim, TIM_CHANNEL_ALL);
@@ -31,7 +32,7 @@ class IntEncoder
 	TIM_HandleTypeDef *htim;
 	short direction;
 public:
-	IntEncoder(TIM_HandleTypeDef *_tim):htim(_tim)
+	IntEncoder(TIM_HandleTypeDef *_tim,short _direction):htim(_tim),direction(_direction)
 	{
 		htim->Instance->CNT=offset;
 		HAL_TIM_Encoder_Start(htim, TIM_CHANNEL_ALL);
