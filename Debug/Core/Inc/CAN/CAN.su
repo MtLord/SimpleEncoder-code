@@ -1,0 +1,4 @@
+CAN.cpp:24:6:void FilterConfig()	48	static
+CAN.cpp:46:6:void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef*)	16	static
+CAN.cpp:60:6:void CanBus::SetError()	16	static
+CAN.cpp:65:7:short int CanBus::Send(long unsigned int, unsigned char, unsigned char*)	40	static

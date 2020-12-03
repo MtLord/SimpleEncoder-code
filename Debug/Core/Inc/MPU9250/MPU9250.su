@@ -1,0 +1,16 @@
+MPU9250.cpp:35:6:void MPU9250_ktora::i2cWriteData(uint8_t, uint8_t, uint8_t)	24	static
+MPU9250.cpp:42:6:void MPU9250_ktora::i2cReadData(uint8_t, uint8_t, uint8_t, uint8_t*)	24	static
+MPU9250.cpp:51:6:void MPU9250_ktora::setup_Mpu9250(uint8_t, uint8_t)	16	static
+MPU9250.cpp:104:6:void MPU9250_ktora::update_Data_Mpu9250()	56	static
+MPU9250.cpp:147:6:void MPU9250_ktora::calc_Offset()	48	static
+MPU9250.cpp:182:6:void MPU9250_ktora::set_Offset(float, float, float, float, float, float, float, float, float)	48	static
+MPU9250.cpp:202:7:float MPU9250_ktora::get_AccX()	24	static
+MPU9250.cpp:209:7:float MPU9250_ktora::get_AccY()	24	static
+MPU9250.cpp:216:7:float MPU9250_ktora::get_AccZ()	24	static
+MPU9250.cpp:223:7:float MPU9250_ktora::get_Temp()	32	static
+MPU9250.cpp:230:7:float MPU9250_ktora::get_GyrX()	24	static
+MPU9250.cpp:237:7:float MPU9250_ktora::get_GyrY()	24	static
+MPU9250.cpp:244:7:float MPU9250_ktora::get_GyrZ()	24	static
+MPU9250.cpp:251:7:float MPU9250_ktora::get_MagX()	32	static
+MPU9250.cpp:258:7:float MPU9250_ktora::get_MagY()	32	static
+MPU9250.cpp:265:7:float MPU9250_ktora::get_MagZ()	32	static
