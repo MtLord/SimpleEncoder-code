@@ -5,4 +5,6 @@ mpu6500.cpp:103:8:double MPU6500::GetGyroX()	24	static
 mpu6500.cpp:108:8:double MPU6500::GetGyroY()	24	static
 mpu6500.cpp:113:6:void MPU6500::CalcOffset()	40	static
 mpu6500.cpp:131:6:void MPU6500::SetYaw()	40	static
-mpu6500.cpp:150:7:float MPU6500::GetYaw()	24	static
+mpu6500.cpp:152:6:void MPU6500::SetYawVel()	40	static
+mpu6500.cpp:173:7:float MPU6500::GetYawVel()	24	static
+mpu6500.cpp:178:7:float MPU6500::GetYaw()	24	static

@@ -1,14 +1,15 @@
 cmath:184:3:constexpr float std::cos(float)	16	static
 cmath:425:3:constexpr float std::sin(float)	16	static
 Localization.cpp:20:6:virtual void Localization::countintegral()	40	static
-Localization.cpp:36:7:virtual float Localization::GetX()	24	static
-Localization.cpp:41:7:virtual float Localization::GetY()	24	static
-Localization.cpp:46:7:virtual float Localization::GetYaw()	24	static
-Localization.cpp:51:6:void Localization::SetShiftX(float)	16	static
-Localization.cpp:56:6:void Localization::SetShiftY(float)	16	static
-Localization.cpp:61:6:void Localization::SetDiamater(float)	16	static
-Localization.cpp:66:6:void Localization::SetPulse(short unsigned int)	16	static
-Localization.cpp:72:6:virtual void Localization_2wd::countintegral()	40	static
-Localization.cpp:90:7:virtual float Localization_2wd::GetX()	24	static
-Localization.cpp:95:7:virtual float Localization_2wd::GetY()	24	static
-Localization.cpp:99:7:virtual float Localization_2wd::GetYaw()	24	static
+Localization.cpp:38:6:virtual void Localization::CalcVel()	32	static
+Localization.cpp:51:7:virtual float Localization::GetX()	24	static
+Localization.cpp:56:7:virtual float Localization::GetY()	24	static
+Localization.cpp:61:7:virtual float Localization::GetYaw()	24	static
+Localization.cpp:66:6:void Localization::SetShiftX(float)	16	static
+Localization.cpp:71:6:void Localization::SetShiftY(float)	16	static
+Localization.cpp:76:6:void Localization::SetDiamater(float)	16	static
+Localization.cpp:81:6:void Localization::SetPulse(short unsigned int)	16	static
+Localization.cpp:87:6:virtual void Localization_2wd::countintegral()	40	static
+Localization.cpp:105:7:virtual float Localization_2wd::GetX()	24	static
+Localization.cpp:110:7:virtual float Localization_2wd::GetY()	24	static
+Localization.cpp:114:7:virtual float Localization_2wd::GetYaw()	24	static

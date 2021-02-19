@@ -39,7 +39,7 @@ class MPU6500
 	 double curvel=0;
 
 	 int ledcount=0;
-	 const float dt=0.001;
+	 const float dt=0.005;
 	 I2C_HandleTypeDef *I2Cx;
 
 	 double GetGyroX();
@@ -61,6 +61,8 @@ public:
 	 float GetYaw();
 	 float GetPitch();
 	 float GetRoll();
+	 void SetYawVel();
+	 float GetYawVel();
 };
 
 

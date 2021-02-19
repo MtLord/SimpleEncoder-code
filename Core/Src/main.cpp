@@ -68,6 +68,7 @@ void SystemClock_Config(void);
 /* USER CODE BEGIN 0 */
 LowlayerHandleTypdef *plow;
 Application *App;
+extern int getmode;
 /* USER CODE END 0 */
 
 /**
@@ -110,6 +111,7 @@ int main(void)
   MX_TIM7_Init();
   MX_TIM8_Init();
   /* USER CODE BEGIN 2 */
+  getmode=Read_SW7;//自己位置の取得モードの切り替えスイッチ
   LowlayerHandleTypdef hlow;
   gyrostate=hlow.gyro.Init();
   plow=&hlow;
@@ -119,7 +121,7 @@ int main(void)
   Timer1 LoopInt(&htim6);
 
      /****init here***********/
-  LoopInt.SetLoopTime(1);
+  LoopInt.SetLoopTime(5);
   FilterConfig(); //CAN RX Filter
   LoopInt.Start();
   /* USER CODE END 2 */

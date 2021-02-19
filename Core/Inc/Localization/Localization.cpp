@@ -22,8 +22,9 @@ void Localization::countintegral()
 	 long hensa[2]={0,0};
 	 count[0]=enX->getcount();
 	 count[1]=enY->getcount();
-	 hensa[0]=count[0]-b_count[0];
-	 hensa[1]=count[1]-b_count[1];
+	 hensa[Xencoder]=count[0]-b_count[0];
+	 hensa[Yencoder]=count[1]-b_count[1];
+
 	 point[Xencoder]+=(hensa[Xencoder]*cos(gyro->GetYaw())-hensa[Yencoder]*sin(gyro->GetYaw()));
 	 point[Yencoder]+=(hensa[Yencoder]*cos(gyro->GetYaw()))+hensa[Xencoder]*sin(gyro->GetYaw());
 	 b_count[0]=count[0];
@@ -33,6 +34,20 @@ void Localization::countintegral()
 	 theta=gyro->GetYaw();
 
 }
+
+void Localization::CalcVel()
+{
+	long hensa[2]={0,0};
+	count[0]=enX->getcount();
+	count[1]=enY->getcount();
+	hensa[Xencoder]=count[0]-b_count[0];
+	hensa[Yencoder]=count[1]-b_count[1];
+	XX=(((float)hensa[Xencoder]/(pulse*4))*pi*diameter)/delta;//get x velocity
+	YY=(((float)hensa[Yencoder]/(pulse*4))*pi*diameter)/delta;
+	theta=gyro->GetYawVel();//get yaw velocity
+}
+
+
 float Localization::GetX()
 {
 	return XX;

@@ -10,15 +10,23 @@
 #include "stm32f4xx_hal.h"
 #include "i2c.h"
 #include "LowlayerHandel.hpp"
+#include "EncoderSwitch/Switch.hpp"
 bool IntFlag=false;
+int getmode=0;
 
  void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
 	if(htim->Instance==TIM6)
 	{
- 		IntFlag=true;
- 		plow->gyro.SetYaw();
- 		plow->loca.countintegral();
+		if(getmode==1){
+			plow->gyro.SetYawVel();
+			plow->loca.CalcVel();
+		}
+		else{
+			plow->gyro.SetYaw();
+			plow->loca.countintegral();
+		}
+
  	}
 
 }

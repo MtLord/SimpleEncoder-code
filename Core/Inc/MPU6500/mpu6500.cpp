@@ -117,7 +117,7 @@ void MPU6500::CalcOffset()
 	{
 		Read_Gyro();
 		sample[i]=GetGyroZ();
-		HAL_Delay(1);
+		HAL_Delay(1);//ms
 	}
 	for(int i=0;i<sample_num;i++)
 	{
@@ -139,12 +139,40 @@ void MPU6500::SetYaw()
 		}
 		ledcount++;
 	}
+
 	curvel=GetGyroZ();
+
 	if((Gz<(average-stddev*cutoffmag))||Gz>(average+stddev*cutoffmag))//cutoff noises
 	{
 		deg+=((curvel+prevel)*dt)/2;
 		prevel=curvel;
 	}
+}
+
+void MPU6500::SetYawVel()
+{
+	if(Read_Gyro()==0)
+	{
+		if(ledcount>85)
+		{
+			TOGGLE_GYRO_LED;
+			ledcount=0;
+		}
+		ledcount++;
+	}
+
+	if((Gz<(average-stddev*cutoffmag))||Gz>(average+stddev*cutoffmag))//cutoff noises
+	{
+		curvel=GetGyroZ();
+	}
+	else
+	{
+		curvel=0;
+	}
+}
+float MPU6500::GetYawVel()
+{
+	return curvel*PI/180;
 }
 
 float MPU6500::GetYaw()
