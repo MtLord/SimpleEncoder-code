@@ -6,7 +6,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2020 STMicroelectronics.
+  * <h2><center>&copy; Copyright (c) 2021 STMicroelectronics.
   * All rights reserved.</center></h2>
   *
   * This software component is licensed by ST under BSD 3-Clause license,
@@ -74,9 +74,9 @@ void HAL_CAN_MspInit(CAN_HandleTypeDef* canHandle)
     HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
     /* CAN1 interrupt Init */
-    HAL_NVIC_SetPriority(CAN1_RX0_IRQn, 0, 0);
+    HAL_NVIC_SetPriority(CAN1_RX0_IRQn, 0, 2);
     HAL_NVIC_EnableIRQ(CAN1_RX0_IRQn);
-    HAL_NVIC_SetPriority(CAN1_RX1_IRQn, 0, 0);
+    HAL_NVIC_SetPriority(CAN1_RX1_IRQn, 0, 2);
     HAL_NVIC_EnableIRQ(CAN1_RX1_IRQn);
     HAL_NVIC_SetPriority(CAN1_SCE_IRQn, 0, 0);
     HAL_NVIC_EnableIRQ(CAN1_SCE_IRQn);

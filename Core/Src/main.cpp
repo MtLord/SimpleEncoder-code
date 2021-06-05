@@ -40,7 +40,7 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-
+int getmode=0;
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -69,6 +69,7 @@ void SystemClock_Config(void);
 LowlayerHandleTypdef *plow;
 Application *App;
 extern int getmode;
+extern bool IntFlag;
 /* USER CODE END 0 */
 
 /**
@@ -78,7 +79,7 @@ extern int getmode;
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-	setbuf(stdout, NULL);
+  setbuf(stdout, NULL);
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -87,7 +88,7 @@ int main(void)
   HAL_Init();
 
   /* USER CODE BEGIN Init */
-  int gyrostate=0;
+  int gyrostate = 0;
   /* USER CODE END Init */
 
   /* Configure the system clock */
@@ -101,6 +102,7 @@ int main(void)
   MX_GPIO_Init();
   MX_USART2_UART_Init();
   MX_CAN1_Init();
+  HAL_Delay(100);
   MX_I2C2_Init();
   MX_TIM1_Init();
   MX_TIM2_Init();
@@ -111,27 +113,48 @@ int main(void)
   MX_TIM7_Init();
   MX_TIM8_Init();
   /* USER CODE BEGIN 2 */
-  getmode=Read_SW7;//自己位置の取得モードの切り替えスイッチ
+  getmode = Read_SW7; //自己位置の取得モードの切り替えスイッチ
   LowlayerHandleTypdef hlow;
-  gyrostate=hlow.gyro.Init();
-  plow=&hlow;
+  FilterConfig(); //CAN RX Filter
+
+  gyrostate = hlow.gyro.Init();
+  plow = &hlow;
   Application app(&hlow);
-  App=&app;
+  App = &app;
 
   Timer1 LoopInt(&htim6);
 
-     /****init here***********/
+  /****init here***********/
   LoopInt.SetLoopTime(5);
-  FilterConfig(); //CAN RX Filter
+
   LoopInt.Start();
   /* USER CODE END 2 */
+
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
     /* USER CODE END WHILE */
-	  App->TaskShift();
+
     /* USER CODE BEGIN 3 */
+	  //App->TaskShift();
+	  if(IntFlag)
+	  {
+		  if(getmode==0)
+		 	  {
+		 	  			plow->gyro.SetYawVel();
+		 	  			plow->loca.CalcVel();
+		 	  }
+		 	  else{
+		 	  			plow->gyro.SetYaw();
+		 	  			plow->loca.countintegral();
+		 	  }
+		  App->SendLoca();
+		  App->SendCount();
+		  IntFlag=false;
+		  //printf("yaw:%f\n\r",hlow.loca.GetYaw());
+	  }
+
   }
   /* USER CODE END 3 */
 }

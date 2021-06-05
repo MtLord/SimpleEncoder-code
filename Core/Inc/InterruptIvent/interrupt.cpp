@@ -12,20 +12,13 @@
 #include "LowlayerHandel.hpp"
 #include "EncoderSwitch/Switch.hpp"
 bool IntFlag=false;
-int getmode=0;
+
 
  void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
 	if(htim->Instance==TIM6)
 	{
-		if(getmode==1){
-			plow->gyro.SetYawVel();
-			plow->loca.CalcVel();
-		}
-		else{
-			plow->gyro.SetYaw();
-			plow->loca.countintegral();
-		}
+		IntFlag=true;
 
  	}
 

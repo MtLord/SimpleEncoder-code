@@ -51,16 +51,19 @@ void Localization::CalcVel()
 float Localization::GetX()
 {
 	return XX;
+
 }
 
 float Localization::GetY()
 {
 	return YY;
+
 }
 
 float Localization::GetYaw()
 {
 	return theta;
+
 }
 
 void Localization::SetShiftX(float x)

@@ -27,7 +27,7 @@
 #define CH_DEG_VAL CONVDEG_250DPS
 // Setup MPU6050
 #define MPU6050_ADDR 0xD0
-const uint16_t i2c_timeout = 5;
+const uint16_t i2c_timeout = 10;
 
 uint32_t timer;
 
@@ -75,7 +75,7 @@ int MPU6500::Read_Gyro()
 
     // Read 6 BYTES of data starting from GYRO_XOUT_H register
 
-    if(HAL_I2C_Mem_Read(I2Cx, MPU6050_ADDR, GYRO_XOUT_H_REG, 1, Rec_Data, 6,i2c_timeout)!=0)
+    if(HAL_I2C_Mem_Read_IT(I2Cx, MPU6050_ADDR, GYRO_XOUT_H_REG, 1, Rec_Data, 6)!=0)
     {
     	return 1;
     }
@@ -130,15 +130,27 @@ void MPU6500::CalcOffset()
 
 void MPU6500::SetYaw()
 {
-	if(Read_Gyro()==0)
-	{
-		if(ledcount>85)
-		{
-			TOGGLE_GYRO_LED;
-			ledcount=0;
-		}
-		ledcount++;
-	}
+
+		if(Read_Gyro()==0)
+			{
+				if(ledcount>85)
+				{
+					TOGGLE_GYRO_LED;
+					ledcount=0;
+				}
+				ledcount++;
+				gyro_ok=true;
+			}
+			else
+			{
+				if(error_led>70)
+				{
+					ERROR_LED;
+					error_led=0;
+				}
+				error_led++;
+			}
+
 
 	curvel=GetGyroZ();
 
@@ -160,7 +172,15 @@ void MPU6500::SetYawVel()
 		}
 		ledcount++;
 	}
-
+	else
+	{
+			if(error_led>70)
+			{
+				ERROR_LED;
+				error_led=0;
+			}
+			error_led++;
+	}
 	if((Gz<(average-stddev*cutoffmag))||Gz>(average+stddev*cutoffmag))//cutoff noises
 	{
 		curvel=GetGyroZ();

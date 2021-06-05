@@ -39,6 +39,8 @@ class MPU6500
 	 double curvel=0;
 
 	 int ledcount=0;
+	 int error_led=0;
+	 bool gyro_ok=false;
 	 const float dt=0.005;
 	 I2C_HandleTypeDef *I2Cx;
 
