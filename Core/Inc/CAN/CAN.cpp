@@ -20,6 +20,7 @@ bool CanRxFlag=false;
 
 
 
+
 int rx_led=0;
 void FilterConfig()
 {
@@ -36,18 +37,19 @@ void FilterConfig()
 	sFilterConfig.SlaveStartFilterBank=14;
 
 	if(HAL_CAN_ConfigFilter(&hcan1, &sFilterConfig)!=HAL_OK)
-		{
-			printf("filter config error!");
-		}
+	{
+		printf("filter config error!");
+	}
 	HAL_CAN_Start(&hcan1);
-	HAL_CAN_ActivateNotification(&hcan1, CAN_IT_RX_FIFO0_MSG_PENDING);
+	HAL_CAN_ActivateNotification(&hcan1, CAN_IT_RX_FIFO0_MSG_PENDING);//can rx interrupt start
 }
 
 void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
  {
 	   HAL_CAN_GetRxMessage(hcan,CAN_RX_FIFO0,&RXmsg,RxFIFO_Data);
 	   App->SetRequred();
-	   if(rx_led>21){
+	   if(rx_led>21)
+	   {
 		   TOGGLE_RX_LED;
 		   rx_led=0;
 	   }
@@ -57,6 +59,7 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 	   }
 
  }
+
 void CanBus::SetError()
 {
 	error_code=(hcan1.Instance->ESR>>4)&0b111;
@@ -64,56 +67,54 @@ void CanBus::SetError()
 
 short CanBus::Send(unsigned long ID,unsigned char DLC,unsigned char *data)
 {
-					uint32_t mailbox_num;
-					 HAL_CAN_StateTypeDef state = hcan1.State;
-					 uint32_t TSR = hcan1.Instance->TSR;
-					 if ((state == HAL_CAN_STATE_READY) ||(state == HAL_CAN_STATE_LISTENING))
-					   {
+	uint32_t mailbox_num;
+	HAL_CAN_StateTypeDef state = hcan1.State;
+	uint32_t TSR = hcan1.Instance->TSR;
+	if ((state == HAL_CAN_STATE_READY) ||(state == HAL_CAN_STATE_LISTENING))//can transmmiter awaked
+	{
+		if (((TSR & CAN_TSR_TME0) != 0U) || ((TSR & CAN_TSR_TME1) != 0U) ||((TSR & CAN_TSR_TME2) != 0U))//�ǂꂩ�̃��[���{�b�N�X���󂢂Ă�����
+		{
+			mailbox_num = (TSR & CAN_TSR_CODE) >> CAN_TSR_CODE_Pos; //�󂫃��[���{�b�N�X�ԍ����擾
+			if (mailbox_num > 2)
+			{
+				/* Update error code */
+				hcan1.ErrorCode |= HAL_CAN_ERROR_INTERNAL;
+				error_flag=true;
+				this->SetError();
+				return -3;
+			}
 
-						  if (((TSR & CAN_TSR_TME0) != 0U) || ((TSR & CAN_TSR_TME1) != 0U) ||((TSR & CAN_TSR_TME2) != 0U))//�ǂꂩ�̃��[���{�b�N�X���󂢂Ă�����
-						  {
-							  mailbox_num = (TSR & CAN_TSR_CODE) >> CAN_TSR_CODE_Pos; //�󂫃��[���{�b�N�X�ԍ����擾
-							  if (mailbox_num > 2)
-							  {
-							         /* Update error code */
-							         hcan1.ErrorCode |= HAL_CAN_ERROR_INTERNAL;
-							         error_flag=true;
-							         this->SetError();
-							         return -1;
-							   }
+			if(this->IDE==CAN_ID_STD)
+			{
+				hcan1.Instance->sTxMailBox[mailbox_num].TIR=ID<<21|this->RTR;
+			}
+			else//ext id
+			{
+				hcan1.Instance->sTxMailBox[mailbox_num].TIR=ID<<3U|IDE|RTR;
+			}
+			hcan1.Instance->sTxMailBox[mailbox_num].TDTR = DLC;
+			hcan1.Instance->sTxMailBox[mailbox_num].TDHR=(uint32_t)data[7]<<24|(uint32_t)data[6]<<16|(uint32_t)data[5]<<8|(uint32_t)data[4];//���[���{�b�N�X��ʃ��W�X�^�ɃZ�b�g
+			hcan1.Instance->sTxMailBox[mailbox_num].TDLR=(uint32_t)data[3]<<24|(uint32_t)data[2]<<16|(uint32_t)data[1]<<8|(uint32_t)data[0];
+			hcan1.Instance->sTxMailBox[mailbox_num].TIR|=1;//tx bit set
+			return 0;
+			error_flag=false;
+		}
+		else
+		{
+			hcan1.ErrorCode |= HAL_CAN_ERROR_PARAM;
+			error_flag=true;
+			this->SetError();
+			return -1;
+		}
 
-							  if(this->IDE==CAN_ID_STD)
-							  {
-								  	  hcan1.Instance->sTxMailBox[mailbox_num].TIR=ID<<21|this->RTR;
-							  }
-							  else//ext id
-							  {
-								  hcan1.Instance->sTxMailBox[mailbox_num].TIR=ID<<3U|IDE|RTR;
-							  }
-							  hcan1.Instance->sTxMailBox[mailbox_num].TDTR = DLC;
-							  hcan1.Instance->sTxMailBox[mailbox_num].TDHR=(uint32_t)data[7]<<24|(uint32_t)data[6]<<16|(uint32_t)data[5]<<8|(uint32_t)data[4];//���[���{�b�N�X��ʃ��W�X�^�ɃZ�b�g
-							  hcan1.Instance->sTxMailBox[mailbox_num].TDLR=(uint32_t)data[3]<<24|(uint32_t)data[2]<<16|(uint32_t)data[1]<<8|(uint32_t)data[0];
-							  hcan1.Instance->sTxMailBox[mailbox_num].TIR|=1;//���M�r�b�g�Z�b�g
-							  return 0;
-							  TOGGLE_TX_LED;
-							  error_flag=false;
-						  }
-						  else
-						  {
-							  hcan1.ErrorCode |= HAL_CAN_ERROR_PARAM;
-							  error_flag=true;
-							  this->SetError();
-							  return -1;
-						  }
-
-					   }
-					 else
-					 {
-						 hcan1.ErrorCode |= HAL_CAN_ERROR_NOT_INITIALIZED;
-						 error_flag=true;
-						 this->SetError();
-						    return -1;
-					 }
+	}
+	else
+	{
+		hcan1.ErrorCode |= HAL_CAN_ERROR_NOT_INITIALIZED;
+		error_flag=true;
+		this->SetError();
+		return -2;
+	}
 
 }
 

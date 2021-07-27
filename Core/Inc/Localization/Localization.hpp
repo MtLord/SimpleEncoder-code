@@ -17,7 +17,7 @@ class Localization
 protected:
 
 		float diameter=48;//mm order
-		uint16_t pulse=2048;//�G���R�[�_��1��]�̃p���X��
+		uint16_t pulse=2048;//encoder pulse
 		float ShiftY=94;
 		float ShiftX=94;
 		double XX = 0;             //Present value(x axis)

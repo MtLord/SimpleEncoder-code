@@ -116,8 +116,11 @@ int main(void)
   getmode = Read_SW7; //自己位置の取得モードの切り替えスイッチ
   LowlayerHandleTypdef hlow;
   FilterConfig(); //CAN RX Filter
-
-  gyrostate = hlow.gyro.Init();
+  /*********gyro pram**************************/
+  hlow.gyro.SetSampleNum(500);//set gyro sampling times
+  hlow.gyro.SetCutOffMag(2.5);//set standard deviation for cutoff noise
+  gyrostate = hlow.gyro.Init();//gyro init
+  /******************************************************/
   plow = &hlow;
   Application app(&hlow);
   App = &app;
@@ -125,7 +128,7 @@ int main(void)
   Timer1 LoopInt(&htim6);
 
   /****init here***********/
-  LoopInt.SetLoopTime(5);
+  LoopInt.SetLoopTime(5);//set loop time in msec
 
   LoopInt.Start();
   /* USER CODE END 2 */
@@ -140,19 +143,18 @@ int main(void)
 	  //App->TaskShift();
 	  if(IntFlag)
 	  {
-		  if(getmode==0)
+		  if(getmode==0)//角度と角速度どちらをセットするか選択
 		 	  {
 		 	  			plow->gyro.SetYawVel();
-		 	  			plow->loca.CalcVel();
+		 	  			plow->loca->CalcVel();
 		 	  }
 		 	  else{
 		 	  			plow->gyro.SetYaw();
-		 	  			plow->loca.countintegral();
+		 	  			plow->loca->countintegral();
 		 	  }
 		  App->SendLoca();
 		  App->SendCount();
 		  IntFlag=false;
-		  //printf("yaw:%f\n\r",hlow.loca.GetYaw());
 	  }
 
   }

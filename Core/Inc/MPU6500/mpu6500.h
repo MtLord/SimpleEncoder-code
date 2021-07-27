@@ -65,6 +65,8 @@ public:
 	 float GetRoll();
 	 void SetYawVel();
 	 float GetYawVel();
+	 void SetCutOffMag(float mag);
+	 void SetSampleNum(int num);
 };
 
 

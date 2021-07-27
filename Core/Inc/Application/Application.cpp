@@ -14,14 +14,15 @@ extern CAN_RxHeaderTypeDef RXmsg;
 
 void Application::SendCount()
 {
-		while(TXok==false)
+	SetCountBuff();
+	while(TXok==false)
+	{
+		if(plow->extcan_d.Send(GRT_ENCODER_COUNT<<ORDER_BIT_Pos|1, 8, tx_buff)!=0)
 		{
-		 if(plow->extcan_d.Send(GRT_ENCODER_COUNT<<ORDER_BIT_Pos|1, 8, tx_buff)!=0)
-		 {
 			 ERROR_LED;
-		 }
-		 else
-		 {
+		}
+		else
+		{
 			if(tx_led>10)
 			{
 				TOGGLE_TX_LED;
@@ -32,8 +33,8 @@ void Application::SendCount()
 				tx_led++;
 			}
 			TXok=true;
-		 }
 		}
+	}
 		TXok=false;
 
 
@@ -41,9 +42,9 @@ void Application::SendCount()
 
 void Application::SendLoca()
 {
-	Convfloat(0,plow->loca.GetX());
-	Convfloat(1,plow->loca.GetY());
-	Convfloat(2,plow->loca.GetYaw());
+	Convfloat(0,plow->loca->GetX());
+	Convfloat(1,plow->loca->GetY());
+	Convfloat(2,plow->loca->GetYaw());
 	while(TXok==false)
 	{
 		if(plow->extcan_d.Send(GET_LOCA<<ORDER_BIT_Pos|0x1<<NODE_ID_Pos,8,this->msg)!=0)
@@ -85,20 +86,20 @@ void Application::SetEncPose()
 {
 	UnitData(0,3,&ShiftX,RxFIFO_Data);
 	UnitData(4, 7, &ShiftY, RxFIFO_Data);
-	plow->loca.SetShiftX(ShiftX);
-	plow->loca.SetShiftY(ShiftY);
+	plow->loca->SetShiftX(ShiftX);
+	plow->loca->SetShiftY(ShiftY);
 	plow->extcan_r.Send(SET_ENCO_POSE<<ORDER_BIT_Pos|0x1<<NODE_ID_Pos,0,0);//return set ok
 }
 
 void Application::SetEncPulse()
 {
 	UnitData(0,1,&pulse,RxFIFO_Data);
-	plow->loca.SetPulse(pulse);
+	plow->loca->SetPulse(pulse);
 }
 void Application::SetEncDiamater()
 {
 	UnitData(0, 3, &diameter, RxFIFO_Data);
-	plow->loca.SetDiamater(diameter);
+	plow->loca->SetDiamater(diameter);
 }
 
 void Application::SetCountBuff()//set encoder count

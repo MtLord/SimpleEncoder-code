@@ -8,3 +8,5 @@ mpu6500.cpp:131:6:void MPU6500::SetYaw()	40	static
 mpu6500.cpp:164:6:void MPU6500::SetYawVel()	40	static
 mpu6500.cpp:193:7:float MPU6500::GetYawVel()	24	static
 mpu6500.cpp:198:7:float MPU6500::GetYaw()	24	static
+mpu6500.cpp:203:6:void MPU6500::SetCutOffMag(float)	16	static
+mpu6500.cpp:207:6:void MPU6500::SetSampleNum(int)	16	static

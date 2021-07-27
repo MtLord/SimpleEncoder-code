@@ -26,8 +26,6 @@ class Application
 		0,
 	};
 	void SetCountBuff();
-
-
 	void SetEncPose();
 	void SetEncPulse();
 	void SetEncDiamater();

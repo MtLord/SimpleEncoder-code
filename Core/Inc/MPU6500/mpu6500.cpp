@@ -199,3 +199,13 @@ float MPU6500::GetYaw()
 {
 	return deg*PI/180;
 }
+
+void MPU6500::SetCutOffMag(float mag)
+{
+	cutoffmag=mag;
+}
+void MPU6500::SetSampleNum(int num)
+{
+	sample_num=num;
+}
+
