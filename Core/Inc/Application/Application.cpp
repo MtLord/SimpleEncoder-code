@@ -42,44 +42,46 @@ void Application::SendCount()
 
 void Application::SendLoca()
 {
-	Convfloat(0,plow->loca->GetX());
-	Convfloat(1,plow->loca->GetY());
-	Convfloat(2,plow->loca->GetYaw());
-	while(TXok==false)
+	if(board_num!=0)
 	{
-		if(plow->extcan_d.Send(GET_LOCA<<ORDER_BIT_Pos|0x1<<NODE_ID_Pos,8,this->msg)!=0)
+		Convfloat(0,plow->loca->GetX());
+		Convfloat(1,plow->loca->GetY());
+		Convfloat(2,plow->loca->GetYaw());
+		while(TXok==false)
 		{
-			TXok=false;
-		}
-		else
-		{
-			TXok=true;
-		}
-	}
-	TXok=false;
-
-	while(TXok==false)
-	{
-		if(plow->extcan_d.Send(GET_LOCA<<ORDER_BIT_Pos|0x2<<NODE_ID_Pos,4,this->msg2)!=0)
-		{
-			ERROR_LED;
-		}
-		else
-		{
-			if(tx_led>10)
+			if(plow->extcan_d.Send(GET_LOCA<<ORDER_BIT_Pos|0x1<<NODE_ID_Pos,8,this->msg)!=0)
 			{
-				TOGGLE_TX_LED;
-				tx_led=0;
+				TXok=false;
 			}
 			else
 			{
-				tx_led++;
+				TXok=true;
 			}
-			TXok=true;
 		}
-	}
-	TXok=false;
+		TXok=false;
 
+		while(TXok==false)
+		{
+			if(plow->extcan_d.Send(GET_LOCA<<ORDER_BIT_Pos|0x2<<NODE_ID_Pos,4,this->msg2)!=0)
+			{
+				ERROR_LED;
+			}
+			else
+			{
+				if(tx_led>10)
+				{
+					TOGGLE_TX_LED;
+					tx_led=0;
+				}
+				else
+				{
+					tx_led++;
+				}
+				TXok=true;
+			}
+		}
+		TXok=false;
+	}
 }
 
 void Application::SetEncPose()
