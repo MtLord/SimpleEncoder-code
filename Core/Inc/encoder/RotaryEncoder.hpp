@@ -31,13 +31,15 @@ class IntEncoder
 	const short offset=0x8000;
 	TIM_HandleTypeDef *htim;
 	short direction;
+	short b_count=0;
+	short n_count=0;
 public:
 	IntEncoder(TIM_HandleTypeDef *_tim,short _direction):htim(_tim),direction(_direction)
 	{
 		htim->Instance->CNT=offset;
 		HAL_TIM_Encoder_Start(htim, TIM_CHANNEL_ALL);
 	}
-
+	short GetCoutDiff();//count diff
 	short getcount();
 };
 

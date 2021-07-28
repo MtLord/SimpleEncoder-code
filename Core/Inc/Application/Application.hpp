@@ -8,6 +8,7 @@
 #ifndef APPLICATION_APPLICATION_HPP_
 #define APPLICATION_APPLICATION_HPP_
 #include "LowlayerHandel.hpp"
+#include "EncoderSwitch/Switch.hpp"
 class Application
 {
 	LowlayerHandleTypdef *plow;
@@ -33,7 +34,7 @@ class Application
 	bool TXok = false;
 
 	bool sendloca = false;
-	bool sendcout = false;
+	int sendcout = 0;
 	bool change_encpos = false;
 	bool change_encpulse = false;
 	bool change_encdia = false;
@@ -45,14 +46,16 @@ class Application
 	void UnitData(int start, int end, float *d, unsigned char *fifodata);
 	void UnitData(int start, int end, short *d, unsigned char *fifodata);
 	void Convfloat(int selct, float data);
-
+	int board_num;
+	int requred_num=0;
 public:
 	Application(LowlayerHandleTypdef *_plow) : plow(_plow)
 	{
+		board_num=Read_SW8;
 	}
 
 	void SendLoca();
-	void SendCount();
+	void SendCount(short borad_num);
 	void TaskShift();
 	void SetRequred();
 };

@@ -31,10 +31,8 @@ public:
 		IntEncoder int_enco4;
 		Encoder enX;//(timhandle,direction);
 		Encoder enY;
-		CanBus extcan_d, extcan_r,stdcan_d;
-
-
 		MPU6500 gyro;
+		CanBus extcan_d, extcan_r,stdcan_d;
 		Localization loca_oddm;
 		Localization_2wd loca_2wd;
 		Localization *loca;

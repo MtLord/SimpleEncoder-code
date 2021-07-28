@@ -153,7 +153,7 @@ int main(void)
 		 	  			plow->loca->countintegral();
 		 	  }
 		  App->SendLoca();
-		  App->SendCount();
+		  App->SendCount(1);
 		  IntFlag=false;
 	  }
 

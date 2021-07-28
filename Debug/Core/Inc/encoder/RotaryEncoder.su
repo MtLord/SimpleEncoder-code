@@ -1,2 +1,3 @@
 RotaryEncoder.cpp:10:6:long int Encoder::getcount()	16	static
 RotaryEncoder.cpp:15:7:short int IntEncoder::getcount()	16	static
+RotaryEncoder.cpp:20:7:short int IntEncoder::GetCoutDiff()	16	static

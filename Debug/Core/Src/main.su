@@ -1,15 +1,15 @@
 Switch.hpp:16:2:SwitchMode::SwitchMode()	16	static
 RotaryEncoder.hpp:20:2:Encoder::Encoder(TIM_HandleTypeDef*, short int)	24	static
-RotaryEncoder.hpp:35:2:IntEncoder::IntEncoder(TIM_HandleTypeDef*, short int)	24	static
+RotaryEncoder.hpp:37:2:IntEncoder::IntEncoder(TIM_HandleTypeDef*, short int)	24	static
 CAN.hpp:27:2:CanBus::CanBus(long unsigned int, long unsigned int)	24	static
 mpu6500.h:51:3:MPU6500::MPU6500(I2C_HandleTypeDef*)	16	static
 Localization.hpp:46:2:Localization::Localization(MPU6500*, Encoder*, Encoder*)	24	static
 Localization.hpp:67:22:Localization_2wd::Localization_2wd(MPU6500*, Encoder*, Encoder*) [inherited from Localization]	32	static
-LowlayerHandel.hpp:41:2:LowlayerHandleTypdef::LowlayerHandleTypdef()	16	static
-Application.hpp:50:2:Application::Application(LowlayerHandleTypdef*)	16	static
+LowlayerHandel.hpp:39:2:LowlayerHandleTypdef::LowlayerHandleTypdef()	16	static
+Application.hpp:52:2:Application::Application(LowlayerHandleTypdef*)	16	static
 TimerInterruptCallback.hpp:18:2:Timer1::Timer1(TIM_HandleTypeDef*)	16	static
 TimerInterruptCallback.hpp:22:7:void Timer1::SetLoopTime(float)	24	static
 TimerInterruptCallback.hpp:44:7:void Timer1::Start()	16	static
-main.cpp:79:5:int main()	4792	static
+main.cpp:79:5:int main()	4824	static
 main.cpp:168:6:void SystemClock_Config()	88	static
 main.cpp:221:6:void Error_Handler()	4	static
