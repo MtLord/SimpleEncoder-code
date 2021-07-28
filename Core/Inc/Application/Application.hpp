@@ -55,7 +55,7 @@ public:
 	}
 
 	void SendLoca();
-	void SendCount(short borad_num);
+	void SendCount();
 	void TaskShift();
 	void SetRequred();
 };

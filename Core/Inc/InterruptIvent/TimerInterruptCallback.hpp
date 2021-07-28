@@ -8,12 +8,13 @@
 class Timer1
 {
 private:
+	 TIM_HandleTypeDef *htim;
 	 float period;
 	 unsigned short counterperiod;
 	 unsigned short Prescaler;
 	 float ajustperiod;
 
-	TIM_HandleTypeDef *htim;
+
 public:
 	Timer1(TIM_HandleTypeDef *timhandle):htim(timhandle),period(0),counterperiod(0),Prescaler(0),ajustperiod(0)
 	{

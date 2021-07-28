@@ -12,12 +12,12 @@
 extern unsigned char RxFIFO_Data[8];
 extern CAN_RxHeaderTypeDef RXmsg;
 
-void Application::SendCount(short borad_num)
+void Application::SendCount()
 {
 	SetCountBuff();
 	while(TXok==false)
 	{
-		if(plow->extcan_d.Send(GRT_ENCODER_COUNT<<ORDER_BIT_Pos|borad_num, 8, tx_buff)!=0)
+		if(plow->extcan_d.Send(GRT_ENCODER_COUNT<<ORDER_BIT_Pos|(this->board_num+1), 8, tx_buff)!=0)
 		{
 			 ERROR_LED;
 		}
@@ -125,14 +125,10 @@ void Application::TaskShift()
 		sendloca=false;
 	}
 
-	if(sendcout==1&&board_num==0)//送られてきたのが1番ボードの要求
+	if(sendcout==1)//送られてきたのが1番ボードの要求
 	{
-		SendCount(1);
+		SendCount();
 
-	}
-	else if(sendcout==2&&board_num==1)
-	{
-		SendCount(2);
 	}
 	sendcout=0;
 
@@ -212,9 +208,6 @@ void Application::SetRequred()
 			break;
 		case GRT_ENCODER_COUNT<<ORDER_BIT_Pos|1:
 				this->sendcout=1;
-			break;
-		case GRT_ENCODER_COUNT<<ORDER_BIT_Pos|2:
-				this->sendcout=2;
 			break;
 	}
 }
